@@ -1,0 +1,20 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sceneRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.marknkamau.unipool.ui.driverMap.DriverMapActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <include
+        android:id="@+id/userDetailsBottomSheet"
+        layout="@layout/layout_driver_bottom_sheet" />
+
+</android.support.design.widget.CoordinatorLayout>

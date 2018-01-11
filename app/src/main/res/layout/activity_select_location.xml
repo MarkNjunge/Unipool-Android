@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.marknkamau.unipool.ui.selectLocation.SelectLocationActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabSU"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:clickable="true"
+        app:backgroundTint="@android:color/white"
+        app:fabSize="normal"
+        app:layout_anchor="@id/locationBottomSheet"
+        app:layout_anchorGravity="end"
+        app:srcCompat="@drawable/ic_su" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cbSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_margin="8dp">
+
+        <fragment
+            android:id="@+id/placeAutocompleteFragment"
+            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imgCenter"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:alpha=".87"
+        app:srcCompat="@drawable/ic_map_pin" />
+
+    <include
+        android:id="@+id/locationBottomSheet"
+        layout="@layout/layout_location_bottom_sheet" />
+
+</android.support.design.widget.CoordinatorLayout>

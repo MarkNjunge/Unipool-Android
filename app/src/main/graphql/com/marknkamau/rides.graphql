@@ -1,0 +1,18 @@
+query GetUserRides($userId: String!) {
+  getRidesByUser(userId: $userId) {
+    startLocation {
+      name
+    }
+    endLocation {
+      name
+    }
+    departureTime
+    arrivalTime
+    vehicle {
+      registrationNumber
+    }
+    driver {
+      fullName
+    }
+  }
+}

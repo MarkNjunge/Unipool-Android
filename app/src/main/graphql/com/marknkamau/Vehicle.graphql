@@ -1,0 +1,11 @@
+mutation AddVehicle($userId: String!, $registrationNumber: String!, $make: String!, $color: String!, $capacity: Int!) {
+	addVehicle(userId: $userId, registrationNumber: $registrationNumber, make: $make, color: $color, capacity: $capacity)
+}
+
+mutation DeleteVehicle($registrationNumber: String!) {
+  deleteVehicle(registrationNumber: $registrationNumber)
+}
+
+mutation UpdateVehicle($registrationNumber: String!, $make: String, $color: String, $capacity: Int) {
+  updateVehicle(registrationNumber: $registrationNumber, make: $make, color: $color, capacity: $capacity)
+}

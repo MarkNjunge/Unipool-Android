@@ -1,0 +1,54 @@
+query GetScheduledRidesForUser($userId: String!) {
+  getScheduledRidesForUser(userId: $userId) {
+    ...scheduledRideData
+  }
+}
+
+query GetScheduledRidesById($rideId: String!) {
+  getScheduledRideById(rideId: $rideId) {
+    ...scheduledRideData
+  }
+}
+
+query GetScheduledRides{
+  getAllScheduledRides{
+    ...scheduledRideData
+  }
+}
+
+mutation ScheduleRide($rideId:String!, $userId:String!, $startLocation:GeoLocationInput!, $endLocation:GeoLocationInput!, $depatureTime:Float!){
+  addScheduledRide(rideId:$rideId,userId:$userId, startLocation:$startLocation,endLocation:$endLocation, depatureTime:$depatureTime)
+}
+
+mutation SetScheduledRideDriver($rideId: String!, $driverId: String!) {
+  setScheduledRideDriver(rideId: $rideId, driverId: $driverId)
+}
+
+mutation DeleteScheduledRide($rideId: String!) {
+  deleteScheduledRide(rideId: $rideId)
+}
+
+fragment scheduledRideData on ScheduledRide{
+    rideId
+    user {
+          _id
+          fullName
+          phone
+    }
+    startLocation {
+      name
+      latitude
+      longitude
+    }
+    endLocation {
+      name
+      latitude
+      longitude
+    }
+    depatureTime
+    driver {
+      _id
+      fullName
+      phone
+    }
+}

@@ -1,0 +1,19 @@
+mutation StartRide($rideId: String!, $driverId: String!, $vehicleRegNo: String!, $locationName: String!, $latitude: Float!, $longitude: Float!) {
+  startRide(rideId: $rideId, driverId: $driverId, vehicleRegNo: $vehicleRegNo, startLocation: {name: $locationName, latitude: $latitude, longitude: $longitude})
+}
+
+mutation AddPickUp($rideId: String!, $userId: String!, $locationName: String!, $latitude: Float!, $longitude: Float!) {
+  addPickup(rideId: $rideId, userId: $userId, locationName: $locationName, latitude: $latitude, longitude: $longitude)
+}
+
+mutation RemovePickUp($rideId: String!, $userId: String!) {
+  removePickUp(rideId: $rideId, userId: $userId)
+}
+
+mutation SetPickUpCompleted($rideId: String!, $userId: String!, $locationName: String!, $latitude: Float!, $longitude: Float!) {
+  setPickUpCompleted(rideId: $rideId, userId: $userId, locationName: $locationName, latitude: $latitude, longitude: $longitude)
+}
+
+mutation MarkRideAsCompleted($rideId: String!, $locationName: String!, $latitude: Float!, $longitude: Float!) {
+  markRideAsCompleted(rideId: $rideId, locationName: $locationName, latitude: $latitude, longitude: $longitude)
+}

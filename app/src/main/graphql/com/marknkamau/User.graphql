@@ -1,0 +1,24 @@
+query GetUser($userId: String!){
+	getUser(userId:$userId){
+		_id
+		studentNumber
+		email
+		fullName
+		phone
+		gender
+		vehicles {
+			registrationNumber
+			make
+			color
+			capacity
+		}
+	}
+}
+
+mutation AddUser($id:String!, $studentNumber:Int!, $email:String!, $fullName:String!, $gender:Gender!, $phone:Int!){
+	addUser(_id:$id, studentNumber:$studentNumber, email:$email, fullName:$fullName, gender:$gender, phone:$phone)
+}
+
+mutation UpdateUser($id:String!, $fullName:String, $gender:Gender, $phone:Int){
+	updateUser(_id:$id, fullName:$fullName,gender:$gender, phone:$phone)
+}

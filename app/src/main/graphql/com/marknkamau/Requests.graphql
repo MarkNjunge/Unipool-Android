@@ -1,0 +1,42 @@
+query GetAllRequests {
+  getAllRequests {
+    user {
+      _id
+      fullName
+    }
+    startLocation {
+      name
+      latitude
+      longitude
+    }
+    endLocation{
+      name
+      latitude
+      longitude
+    }
+  }
+}
+
+query GetRequestByUser($userId:String!){
+  getRequestsByUser(userId:$userId){
+    startLocation {
+      name
+      latitude
+      longitude
+    }
+    endLocation {
+      name
+      latitude
+      longitude
+    }
+  }
+}
+
+mutation AddRequest($userId: String!, $startLocation: GeoLocationInput!, $endLocation: GeoLocationInput!) {
+  addRequest(userId: $userId, startLocation: $startLocation, endLocation: $endLocation)
+}
+
+mutation RemoveRequest($userId: String!) {
+  removeRequest(userId: $userId)
+}
+
