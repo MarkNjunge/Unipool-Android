@@ -22,7 +22,7 @@ import java.util.*
 
 class UnipoolApp : MultiDexApplication() {
     private val mqttBroker by lazy { getString(R.string.mqtt_broker) }
-    private val requestTokenId by lazy { getString(R.string.google_app_id) }
+    private val requestTokenId by lazy { getString(R.string.request_token_id) }
     private val googleMapsApiKey by lazy { getString(R.string.google_api_key) }
 
     val authService: AuthenticationService by lazy { AuthenticationServiceImpl(googleApiClient) }
