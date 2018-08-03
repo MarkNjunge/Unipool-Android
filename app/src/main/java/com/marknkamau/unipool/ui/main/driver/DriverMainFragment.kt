@@ -28,14 +28,14 @@ class DriverMainFragment : Fragment() {
         btnFindRequests.setOnClickListener {
             if (mainActivity.canViewMap()) {
                 if (user?.vehicles?.isEmpty() == true){
-                    context.toast("You cannot act as a driver without any vehicles.")
+                    requireContext().toast("You cannot act as a driver without any vehicles.")
                 }else{
-                    context.start(PreFindRequestsActivity::class.java)
+                    requireContext().start(PreFindRequestsActivity::class.java)
                 }
             }
         }
         btnFindScheduledRides.setOnClickListener {
-            context.start(DriverScheduledRidesActivity::class.java)
+            requireContext().start(DriverScheduledRidesActivity::class.java)
         }
     }
 

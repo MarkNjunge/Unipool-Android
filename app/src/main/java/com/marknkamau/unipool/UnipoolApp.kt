@@ -1,6 +1,6 @@
 package com.marknkamau.unipool
 
-import android.support.multidex.MultiDexApplication
+import android.app.Application
 import com.crashlytics.android.Crashlytics
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,7 +20,7 @@ import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import java.util.*
 
-class UnipoolApp : MultiDexApplication() {
+class UnipoolApp : Application() {
     private val mqttBroker by lazy { getString(R.string.mqtt_broker) }
     private val requestTokenId by lazy { getString(R.string.request_token_id) }
     private val googleMapsApiKey by lazy { getString(R.string.google_api_key) }

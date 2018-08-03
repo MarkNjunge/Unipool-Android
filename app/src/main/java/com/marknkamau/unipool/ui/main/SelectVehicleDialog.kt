@@ -9,15 +9,17 @@ class SelectVehicleDialog : DialogFragment() {
     private var onSelected: ((item: String) -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(requireContext())
 
         builder.setTitle("Choose vehicle")
 
-        val items = arguments.getStringArray(ITEMS)
+        arguments?.let {
+            val items = it.getStringArray(ITEMS)
 
-        builder.setItems(items, { _, which ->
-            onSelected?.invoke(items[which])
-        })
+            builder.setItems(items) { _, which ->
+                onSelected?.invoke(items[which])
+            }
+        }
 
         return builder.create()
     }

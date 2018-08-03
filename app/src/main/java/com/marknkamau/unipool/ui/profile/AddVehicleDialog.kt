@@ -22,29 +22,29 @@ class AddVehicleDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(requireContext())
 
-        val inflater = activity.layoutInflater
+        val inflater = requireActivity().layoutInflater
         val view = inflater.inflate(R.layout.dialog_add_vehicle, null)
 
-        if (arguments != null) {
-            val passedRegNo = arguments.getString(REG_NO, "")
+        arguments?.let {
+            val passedRegNo = it.getString(REG_NO, "")
             if (passedRegNo.isNotEmpty()) {
                 view.etRegNo.setText(passedRegNo)
                 view.etRegNo.isEnabled = false
             }
 
-            val passedMake = arguments.getString(MAKE, "")
+            val passedMake = it.getString(MAKE, "")
             if (passedMake.isNotEmpty()) {
                 view.etMake.setText(passedMake)
             }
 
-            val passedColor = arguments.getString(COLOR, "")
+            val passedColor = it.getString(COLOR, "")
             if (passedColor.isNotEmpty()) {
                 view.etColor.setText(passedColor)
             }
 
-            val passedCapacity = arguments.getString(CAPACITY, "")
+            val passedCapacity = it.getString(CAPACITY, "")
             if (passedCapacity.isNotEmpty()) {
                 view.etPassengers.setText(passedCapacity)
             }

@@ -42,13 +42,13 @@ class RiderMainFragment : Fragment(), RiderMainView {
 
         btnRequestRide.setOnClickListener {
             if (mainActivity.canViewMap()) {
-                context.start(RiderMapActivity::class.java)
+                requireContext().start(RiderMapActivity::class.java)
             }
         }
 
         btnAddScheduledRide.setOnClickListener {
             if (mainActivity.canViewMap()) {
-                context.start(ScheduleRideActivity::class.java)
+                requireContext().start(ScheduleRideActivity::class.java)
             }
         }
     }
@@ -64,18 +64,18 @@ class RiderMainFragment : Fragment(), RiderMainView {
     }
 
     private fun showDeleteDialog(ride: ScheduledRide) {
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Delete ride?")
                 .setMessage("Are you sure you want to delete this ride?")
-                .setPositiveButton("Yes", { _, _ ->
+                .setPositiveButton("Yes") { _, _ ->
                     presenter.deleteRide(ride)
-                })
-                .setNegativeButton("No", { _, _ -> })
+                }
+                .setNegativeButton("No") { _, _ -> }
                 .show()
     }
 
     override fun displayMessage(message: String) {
-        context.toast(message)
+        requireContext().toast(message)
     }
 
     override fun displayScheduledRides(rides: MutableList<ScheduledRide>) {

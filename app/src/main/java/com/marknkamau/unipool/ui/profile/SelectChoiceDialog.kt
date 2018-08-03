@@ -23,13 +23,13 @@ class SelectChoiceDialog : DialogFragment() {
     private var onSelected: ((item: String) -> Unit)? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val items = arguments.getStringArray(ITEMS_KEY)
-        val title = arguments.getString(TITLE)
+        val items = arguments!!.getStringArray(ITEMS_KEY)
+        val title = arguments!!.getString(TITLE)
 
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(requireContext())
 
         builder.setTitle(title)
-        builder.setItems(items, { _, which -> onSelected?.invoke(items[which]) })
+        builder.setItems(items) { _, which -> onSelected?.invoke(items[which]) }
 
         // Single-choice dialogs don't need buttons because they
         // auto-dismiss when the user makes a choice
