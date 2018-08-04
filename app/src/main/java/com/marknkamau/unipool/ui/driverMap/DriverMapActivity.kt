@@ -12,6 +12,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.PickUp
 import com.marknkamau.unipool.domain.RequestOffer
 import com.marknkamau.unipool.domain.RideRequest
@@ -47,7 +48,7 @@ class DriverMapActivity : BaseActivity(), DriverMapView, OnMapReadyCallback {
         endLocation = intent.getParcelableExtra(END_LOCATION)
         pricing = intent.getIntExtra(PRICING, 0)
 
-        presenter = DriverMapPresenter(this, apiRepository, paperService, directionsHelper, mqttHelper)
+        presenter = DriverMapPresenter(this, UnipoolApp.apiRepository, UnipoolApp.localStorage, UnipoolApp.directionsHelper, UnipoolApp.mqttHelper)
 
         bottomSheetBehavior = BottomSheetBehavior.from(userDetailsBottomSheet)
         bottomSheetBehavior.peekHeight = 0
@@ -94,11 +95,11 @@ class DriverMapActivity : BaseActivity(), DriverMapView, OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json))
 
-        mapHelper = MapHelper(app.googleApiClient, googleMap, this, 15f)
+        mapHelper = MapHelper(UnipoolApp.googleApiClient, googleMap, this, 15f)
         mapHelper.listenForLocationUpdates()
 
         // Initialize ride helper
-        rideHelper = RideHelper(mapHelper, app.directionsHelper, paperService, apiRepository, vehicleNumber, endLocation,
+        rideHelper = RideHelper(mapHelper, UnipoolApp.directionsHelper,UnipoolApp.localStorage, UnipoolApp.apiRepository, vehicleNumber, endLocation,
                 { throwable ->
                     displayMessage(throwable.message ?: "An error has occurred")
                 },
@@ -134,7 +135,7 @@ class DriverMapActivity : BaseActivity(), DriverMapView, OnMapReadyCallback {
                     }
                 })
 
-        val ongoingRide = app.localStorage.getOngoingRide()
+        val ongoingRide = UnipoolApp.localStorage.getOngoingRide()
         if (ongoingRide != null) {
             rideHelper.ride = ongoingRide
             rideView.visibility = View.VISIBLE

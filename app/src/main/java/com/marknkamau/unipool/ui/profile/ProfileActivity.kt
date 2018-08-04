@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.marknkamau.type.Gender
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.User
 import com.marknkamau.unipool.domain.Vehicle
 import com.marknkamau.unipool.ui.BaseActivity
@@ -30,7 +31,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        presenter = ProfilePresenter(this, paperService, apiRepository, authenticationService)
+        presenter = ProfilePresenter(this, UnipoolApp.localStorage, UnipoolApp.apiRepository, UnipoolApp.authService)
         presenter.getUser()
 
         viewToBeEnabled.add(etFullName)
@@ -41,9 +42,9 @@ class ProfileActivity : BaseActivity(), ProfileView {
         rvVehicles.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
 
         tvGender.setOnClickListener {
-            choiceDialog("Select gender", arrayOf("Male", "Female"), { item ->
+            choiceDialog("Select gender", arrayOf("Male", "Female")) { item ->
                 tvGender.text = item
-            }).show(supportFragmentManager, "SelectGender")
+            }.show(supportFragmentManager, "SelectGender")
         }
 
         imgAddVehicle.setOnClickListener {
@@ -127,7 +128,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
     }
 
     private fun setVehiclesAdapter(vehicles: MutableList<Vehicle>) {
-        vehiclesAdapter = VehiclesAdapter(vehicles, { vehicle, vehicleClickType ->
+        vehiclesAdapter = VehiclesAdapter(vehicles) { vehicle, vehicleClickType ->
             if (vehicleClickType == VehiclesAdapter.VehicleClickType.EDIT) {
                 val dialog = AddVehicleDialog()
 
@@ -154,7 +155,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
                 pbLoading.visibility = View.VISIBLE
                 presenter.deleteVehicle(vehicle)
             }
-        })
+        }
 
         rvVehicles.adapter = vehiclesAdapter
     }

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.ScheduledRide
 import com.marknkamau.unipool.ui.BaseActivity
 import com.marknkamau.unipool.utils.toast
@@ -19,13 +20,13 @@ class DriverScheduledRidesActivity : BaseActivity(), DriverScheduledRidesView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_scheduled_rides)
 
-        presenter = DriverScheduledRidesPresenter(this, apiRepository)
+        presenter = DriverScheduledRidesPresenter(this, UnipoolApp.apiRepository)
 
         rvScheduledRides.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         rvScheduledRides.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
-        scheduledRidesAdapter = DriverScheduledRidesAdapter({ ride ->
+        scheduledRidesAdapter = DriverScheduledRidesAdapter { ride ->
 
-        })
+        }
         rvScheduledRides.adapter = scheduledRidesAdapter
     }
 

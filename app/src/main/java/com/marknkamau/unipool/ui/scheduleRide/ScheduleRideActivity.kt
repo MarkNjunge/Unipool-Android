@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.View
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.ScheduledRide
 import com.marknkamau.unipool.ui.BaseActivity
 import com.marknkamau.unipool.ui.selectLocation.SelectLocationActivity
@@ -30,7 +31,7 @@ class ScheduleRideActivity : BaseActivity(), ScheduleRideView {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val presenter = ScheduleRidePresenter(this, authenticationService, paperService, apiRepository)
+        val presenter = ScheduleRidePresenter(this, UnipoolApp.authService, UnipoolApp.localStorage, UnipoolApp.apiRepository)
 
         val timePickerFragment = TimePickerFragment()
         timePickerFragment.setListener { hourOfDay, minute ->

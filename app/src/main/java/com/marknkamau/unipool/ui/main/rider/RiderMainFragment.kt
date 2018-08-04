@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.ScheduledRide
 import com.marknkamau.unipool.ui.main.MainActivity
 import com.marknkamau.unipool.ui.riderMap.RiderMapActivity
@@ -31,13 +32,13 @@ class RiderMainFragment : Fragment(), RiderMainView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter = RiderMainPresenter(this, mainActivity.app.localStorage, mainActivity.app.apiService)
+        presenter = RiderMainPresenter(this, UnipoolApp.localStorage, UnipoolApp.apiRepository)
 
         rvScheduledRides.layoutManager = LinearLayoutManager(context, LinearLayout.VERTICAL, false)
         rvScheduledRides.addItemDecoration(DividerItemDecoration(context, LinearLayout.VERTICAL))
-        scheduledRidesAdapter = ScheduledRidesAdapter({ ride ->
+        scheduledRidesAdapter = ScheduledRidesAdapter { ride ->
             showDeleteDialog(ride)
-        })
+        }
         rvScheduledRides.adapter = scheduledRidesAdapter
 
         btnRequestRide.setOnClickListener {

@@ -2,11 +2,15 @@ package com.marknkamau.unipool.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.authentication.AuthenticationService
+import com.marknkamau.unipool.domain.data.local.LocalStorageService
 import com.marknkamau.unipool.ui.login.LoginActivity
 import com.marknkamau.unipool.ui.pastRides.PastRidesActivity
 import com.marknkamau.unipool.ui.profile.ProfileActivity
@@ -17,11 +21,15 @@ import timber.log.Timber
 
 @SuppressLint("Registered") // Not required in manifest
 open class BaseActivity : AppCompatActivity(), AuthenticationService.SignOutListener {
-    protected val paperService by lazy { app.localStorage }
-    protected val apiRepository by lazy { app.apiService }
-    protected val directionsHelper by lazy { app.directionsHelper }
-    protected val authenticationService by lazy { app.authService }
-    protected val mqttHelper by lazy { app.mqttHelper }
+    private lateinit var authService:AuthenticationService
+    private lateinit var localStorage: LocalStorageService
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onCreate(savedInstanceState, persistentState)
+
+        authService = UnipoolApp.authService
+        localStorage = UnipoolApp.localStorage
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -43,8 +51,8 @@ open class BaseActivity : AppCompatActivity(), AuthenticationService.SignOutList
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_sign_out -> {
-                authenticationService.signOut(this)
-                paperService.deleteUser()
+                authService.signOut(this)
+                localStorage.deleteUser()
                 true
             }
             R.id.menu_profile -> {

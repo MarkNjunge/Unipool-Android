@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.PastRide
 import com.marknkamau.unipool.ui.BaseActivity
 import com.marknkamau.unipool.utils.toast
@@ -22,12 +23,12 @@ class PastRidesActivity : BaseActivity(), PastRidesView {
 
         rvPastRides.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         rvPastRides.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
-        pastRidesAdapter = PastRidesAdapter({ pastRide ->
+        pastRidesAdapter = PastRidesAdapter { pastRide ->
             TransitionManager.beginDelayedTransition(sceneRoot)
-        })
+        }
         rvPastRides.adapter = pastRidesAdapter
 
-        presenter = PastRidesPresenter(this, paperService, apiRepository)
+        presenter = PastRidesPresenter(this, UnipoolApp.localStorage, UnipoolApp.apiRepository)
     }
 
     override fun onResume() {

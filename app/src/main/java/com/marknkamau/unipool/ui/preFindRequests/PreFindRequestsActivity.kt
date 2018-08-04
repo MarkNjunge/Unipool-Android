@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.User
 import com.marknkamau.unipool.ui.BaseActivity
 import com.marknkamau.unipool.ui.driverMap.DriverMapActivity
@@ -27,7 +28,7 @@ class PreFindRequestsActivity : BaseActivity(), PreFindRequestsView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pre_find_requests)
 
-        presenter = PreFindRequestsPresenter(this, paperService)
+        presenter = PreFindRequestsPresenter(this, UnipoolApp.localStorage)
         presenter.getUser()
 
         btnFindRequests.setOnClickListener {

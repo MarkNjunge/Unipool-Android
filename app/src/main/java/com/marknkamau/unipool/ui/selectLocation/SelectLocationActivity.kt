@@ -11,6 +11,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.ui.BaseActivity
 import com.marknkamau.unipool.utils.app
 import com.marknkamau.unipool.utils.mapping.GeoLocation
@@ -54,7 +55,7 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json))
 
-        mapHelper = MapHelper(app.googleApiClient, googleMap, this, 15f)
+        mapHelper = MapHelper(UnipoolApp.googleApiClient, googleMap, this, 15f)
         mapHelper?.let { helper ->
             helper.initializePlacesSearch(fragmentManager.findFragmentById(R.id.placeAutocompleteFragment) as PlaceAutocompleteFragment)
 

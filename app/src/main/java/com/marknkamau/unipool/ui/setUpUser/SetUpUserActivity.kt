@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.RadioButton
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.authentication.AuthenticationService
 import com.marknkamau.unipool.ui.BaseActivity
 import com.marknkamau.unipool.ui.login.LoginActivity
@@ -18,16 +19,16 @@ class SetUpUserActivity : BaseActivity(), SetUpUserView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_up_user)
 
-        presenter = SetUpUserPresenter(this, paperService, authenticationService, apiRepository)
+        presenter = SetUpUserPresenter(this, UnipoolApp.localStorage, UnipoolApp.authService, UnipoolApp.apiRepository)
 
-        etFullName.setText(extractNameFromEmail(authenticationService.currentUserEmail()))
+        etFullName.setText(extractNameFromEmail(UnipoolApp.authService.currentUserEmail()))
 
         btnContinue.setOnClickListener {
             addUser()
         }
 
         btnLogout.setOnClickListener {
-            authenticationService.signOut(object : AuthenticationService.SignOutListener {
+            UnipoolApp.authService.signOut(object : AuthenticationService.SignOutListener {
                 override fun onSuccess() {
                     start(LoginActivity::class.java)
                     finish()

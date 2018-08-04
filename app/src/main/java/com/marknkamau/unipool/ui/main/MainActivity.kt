@@ -9,6 +9,7 @@ import android.provider.Settings.SettingNotFoundException
 import android.support.design.widget.BottomNavigationView
 import android.view.View
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.User
 import com.marknkamau.unipool.ui.BaseActivity
 import com.marknkamau.unipool.ui.login.LoginActivity
@@ -48,7 +49,7 @@ class MainActivity : BaseActivity(), MainView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (!authenticationService.isSignedIn()) {
+        if (!UnipoolApp.authService.isSignedIn()) {
             start(LoginActivity::class.java)
             finish()
             return
@@ -58,7 +59,7 @@ class MainActivity : BaseActivity(), MainView {
 
         changeFragment(riderFragmentId)
 
-        presenter = MainPresenter(this, authenticationService, apiRepository, paperService)
+        presenter = MainPresenter(this, UnipoolApp.authService, UnipoolApp.apiRepository, UnipoolApp.localStorage)
 
         requestPermissions()
     }

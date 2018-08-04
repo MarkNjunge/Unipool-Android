@@ -12,6 +12,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.LocalRideRequest
 import com.marknkamau.unipool.domain.OfferResponseType
 import com.marknkamau.unipool.domain.RequestOffer
@@ -87,7 +88,7 @@ class RiderMapActivity : BaseActivity(), OnMapReadyCallback, RiderMapView {
         }
 
         // Initialize presenter
-        presenter = RiderMapPresenter(this, authenticationService, paperService, apiRepository, mqttHelper)
+        presenter = RiderMapPresenter(this, UnipoolApp.authService, UnipoolApp.localStorage, UnipoolApp.apiRepository, UnipoolApp.mqttHelper)
 
         // Initialize map
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -109,9 +110,9 @@ class RiderMapActivity : BaseActivity(), OnMapReadyCallback, RiderMapView {
         googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json))
 
         // Initialize map helper
-        mapHelper = MapHelper(app.googleApiClient, googleMap, this)
+        mapHelper = MapHelper(UnipoolApp.googleApiClient, googleMap, this)
         mapHelper.initializePlacesSearch(fragmentManager.findFragmentById(R.id.place_autocomplete_fragment) as PlaceAutocompleteFragment)
-        mapHelper.directionsHelper = app.directionsHelper
+        mapHelper.directionsHelper = UnipoolApp.directionsHelper
 
         // Set universal error listener
         mapHelper.setOnError { throwable ->
@@ -233,7 +234,7 @@ class RiderMapActivity : BaseActivity(), OnMapReadyCallback, RiderMapView {
         tvOrigin.text = mapHelper.selectedLocation.name
         tvDestination.text = strathmoreLocation.name
 
-        app.directionsHelper.getDirections(mapHelper.selectedLocation.latLng, strathmoreLocation.latLng,
+        UnipoolApp.directionsHelper.getDirections(mapHelper.selectedLocation.latLng, strathmoreLocation.latLng,
                 { result ->
                     lastDirections = result
                     mapHelper.displayRoute(result)

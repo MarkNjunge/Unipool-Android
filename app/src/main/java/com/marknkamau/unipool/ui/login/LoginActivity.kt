@@ -7,6 +7,7 @@ import android.transition.TransitionManager
 import android.view.View
 import com.google.android.gms.auth.api.Auth
 import com.marknkamau.unipool.R
+import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.domain.authentication.AuthenticationService
 import com.marknkamau.unipool.ui.BaseActivity
 import com.marknkamau.unipool.ui.main.MainActivity
@@ -25,10 +26,10 @@ class LoginActivity : BaseActivity(), AuthenticationService.SignInListener, LogI
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        presenter = LoginPresenter(this, authenticationService, apiRepository, paperService)
+        presenter = LoginPresenter(this, UnipoolApp.authService, UnipoolApp.apiRepository, UnipoolApp.localStorage)
 
         btnSignIn.setOnClickListener {
-            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(app.googleApiClient)
+            val signInIntent = Auth.GoogleSignInApi.getSignInIntent(UnipoolApp.googleApiClient)
             startActivityForResult(signInIntent, SIGN_IN_REQUEST)
         }
     }
@@ -41,7 +42,7 @@ class LoginActivity : BaseActivity(), AuthenticationService.SignInListener, LogI
             if (result.isSuccess) {
                 TransitionManager.beginDelayedTransition(activityLogIn)
                 pbLoading.visibility = View.VISIBLE
-                authenticationService.signIn(result, this)
+                UnipoolApp.authService.signIn(result, this)
             } else {
                 Timber.e("Sign in result was empty")
                 toast("Sign in failed")
