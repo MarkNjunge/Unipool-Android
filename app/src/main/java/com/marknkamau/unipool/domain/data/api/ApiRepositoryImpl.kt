@@ -41,20 +41,20 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                         null
                     } else {
                         User(
-                                getUser._id() ?: "null",
-                                getUser.studentNumber() ?: 0,
-                                getUser.email() ?: "null",
-                                getUser.fullName() ?: "null",
-                                getUser.phone() ?: 0,
-                                getUser.gender() ?: Gender.M,
-                                getUser.vehicles()?.map { vehicle ->
+                                getUser._id(),
+                                getUser.studentNumber(),
+                                getUser.email(),
+                                getUser.fullName(),
+                                getUser.phone(),
+                                getUser.gender(),
+                                getUser.vehicles().map { vehicle ->
                                     Vehicle(
-                                            vehicle.registrationNumber() ?: "null",
-                                            vehicle.make() ?: "null",
-                                            vehicle.color() ?: "null",
-                                            vehicle.capacity() ?: 0
+                                            vehicle.registrationNumber(),
+                                            vehicle.make(),
+                                            vehicle.color(),
+                                            vehicle.capacity()
                                     )
-                                }?.toMutableList() ?: mutableListOf()
+                                }.toMutableList()
                         )
                     }
                 }
@@ -141,7 +141,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                             if (data == null) {
                                 Requesting(false, null)
                             } else {
-                                Requesting(true, Pair(data.startLocation()!!.convert(), data.endLocation()!!.convert()))
+                                Requesting(true, Pair(data.startLocation().convert(), data.endLocation().convert()))
 
                             }
                         }
@@ -159,7 +159,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
 
                             val allRequests = response.data()?.allRequests
                             allRequests?.forEach {
-                                val request = RideRequest(it.user()?._id()!!, it.user()?.fullName()!!, it.startLocation()!!.convert(), it.endLocation()!!.convert())
+                                val request = RideRequest(it.user()._id(), it.user().fullName(), it.startLocation().convert(), it.endLocation().convert())
                                 mapped.add(request)
                             }
 
@@ -272,7 +272,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                         val scheduledRideData = item.fragments().scheduledRideData()
                         val scheduledRide = ScheduledRide(
                                 scheduledRideData.rideId(),
-                                UserSimple(scheduledRideData.user()._id()!!, scheduledRideData.user().fullName()!!, scheduledRideData.user().phone()!!),
+                                UserSimple(scheduledRideData.user()._id(), scheduledRideData.user().fullName(), scheduledRideData.user().phone()),
                                 scheduledRideData.startLocation().convert(),
                                 scheduledRideData.endLocation().convert(),
                                 DateTime.fromTimestamp(scheduledRideData.depatureTime().toLong())
@@ -305,7 +305,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                         val scheduledRideData = item.fragments().scheduledRideData()
                         val scheduledRide = ScheduledRide(
                                 scheduledRideData.rideId(),
-                                UserSimple(scheduledRideData.user()._id()!!, scheduledRideData.user().fullName()!!, scheduledRideData.user().phone()!!),
+                                UserSimple(scheduledRideData.user()._id(), scheduledRideData.user().fullName(), scheduledRideData.user().phone()),
                                 scheduledRideData.startLocation().convert(),
                                 scheduledRideData.endLocation().convert(),
                                 DateTime.fromTimestamp(scheduledRideData.depatureTime().toLong())
@@ -331,20 +331,17 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                         val departureTime = DateTime.fromTimestamp(formattedDepartureTime.toLong())
                         val arrivalTimeRaw = ride.arrivalTime()
 
-                        val arrivalTime = if (arrivalTimeRaw == null) {
-                            null
-                        } else {
-                            val formattedArrivalTime = decimalFormat.format(arrivalTimeRaw.toDouble())
-                            DateTime.fromTimestamp(formattedArrivalTime.toLong())
-                        }
+                        val formattedArrivalTime = decimalFormat.format(arrivalTimeRaw)
+                        val arrivalTime = DateTime.fromTimestamp(formattedArrivalTime.toLong())
+
 
                         val pastRide = PastRide(
-                                ride.startLocation()?.name().toString(),
-                                ride.endLocation()?.name().toString(),
+                                ride.startLocation().name(),
+                                ride.endLocation().name(),
                                 departureTime,
                                 arrivalTime,
-                                ride.vehicle()?.registrationNumber().toString(),
-                                ride.driver()?.fullName().toString())
+                                ride.vehicle().registrationNumber(),
+                                ride.driver().fullName())
 
                         returnList.add(pastRide)
                     }
@@ -354,31 +351,30 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
     }
 
     private fun ScheduledRideData.StartLocation.convert(): GeoLocation {
-        return GeoLocation(this.name() ?: "null", this.latitude(), this.longitude())
+        return GeoLocation(this.name(), this.latitude(), this.longitude())
     }
 
     private fun ScheduledRideData.EndLocation.convert(): GeoLocation {
-        return GeoLocation(this.name() ?: "null", this.latitude(), this.longitude())
+        return GeoLocation(this.name(), this.latitude(), this.longitude())
     }
 
     private fun GetRequestByUserQuery.StartLocation.convert(): GeoLocation {
-        return GeoLocation(this.name() ?: "null", this.latitude(), this.longitude())
+        return GeoLocation(this.name(), this.latitude(), this.longitude())
     }
 
     private fun GetRequestByUserQuery.EndLocation.convert(): GeoLocation {
-        return GeoLocation(this.name() ?: "null", this.latitude(), this.longitude())
+        return GeoLocation(this.name(), this.latitude(), this.longitude())
     }
 
     private fun GetAllRequestsQuery.StartLocation.convert(): GeoLocation {
-        return GeoLocation(this.name() ?: "null", this.latitude(), this.longitude())
+        return GeoLocation(this.name(), this.latitude(), this.longitude())
     }
 
     private fun GetAllRequestsQuery.EndLocation.convert(): GeoLocation {
-        return GeoLocation(this.name() ?: "null", this.latitude(), this.longitude())
+        return GeoLocation(this.name(), this.latitude(), this.longitude())
     }
 
-    private fun GeoLocation.mapToInput(): GeoLocationInput
-            = GeoLocationInput.builder()
+    private fun GeoLocation.mapToInput(): GeoLocationInput = GeoLocationInput.builder()
             .name(this.name)
             .latitude(this.latitude)
             .longitude(this.longitude)
