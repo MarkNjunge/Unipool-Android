@@ -17,18 +17,10 @@ class ScheduledRidesAdapter(private val onClick: (ride: ScheduledRide) -> Unit) 
 
     override fun getItemCount() = rides.size
 
-    fun setList(rides: MutableList<ScheduledRide>){
+    fun setList(rides: MutableList<ScheduledRide>) {
         this.rides.clear()
         this.rides.addAll(rides)
         this.notifyDataSetChanged()
-    }
-
-    fun addItem(ride: ScheduledRide) {
-        rides.add(ride)
-    }
-
-    fun removeItem(ride: ScheduledRide) {
-        rides.remove(ride)
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
@@ -37,7 +29,7 @@ class ScheduledRidesAdapter(private val onClick: (ride: ScheduledRide) -> Unit) 
             itemView.endLocationTextView.text = ride.endLocation.name
             itemView.dateTimeTextView.text = ride.dateTime.format("${DateTime.TIME_FORMAT}\n${DateTime.DATE_FORMAT}")
 
-            if (ride.driver != null){
+            if (ride.driver != null) {
                 itemView.tvRiderName.text = ride.driver.fullname
                 itemView.visibility = View.VISIBLE
             }

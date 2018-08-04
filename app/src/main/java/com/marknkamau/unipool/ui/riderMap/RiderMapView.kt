@@ -9,7 +9,7 @@ interface RiderMapView : BaseView {
     fun requestExists(request: LocalRideRequest)
     fun noRequestExists()
     fun displayOffer(offer: RequestOffer)
-    fun setRideStarted(driver:UserSimple)
+    fun setRideStarted(driver: UserSimple)
     fun setRideCancelled()
     fun setRideCompleted()
 }

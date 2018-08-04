@@ -16,7 +16,7 @@ fun extractNameFromEmail(email: String): String {
 }
 
 fun <T> applySingleSchedulers(): SingleTransformer<T, T> {
-    return SingleTransformer<T, T> { upstream ->
+    return SingleTransformer { upstream ->
         upstream.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
     }

@@ -14,14 +14,13 @@ import com.marknkamau.unipool.domain.data.local.LocalStorageService
 import com.marknkamau.unipool.ui.login.LoginActivity
 import com.marknkamau.unipool.ui.pastRides.PastRidesActivity
 import com.marknkamau.unipool.ui.profile.ProfileActivity
-import com.marknkamau.unipool.utils.app
 import com.marknkamau.unipool.utils.start
 import com.marknkamau.unipool.utils.toast
 import timber.log.Timber
 
 @SuppressLint("Registered") // Not required in manifest
 open class BaseActivity : AppCompatActivity(), AuthenticationService.SignOutListener {
-    private lateinit var authService:AuthenticationService
+    private lateinit var authService: AuthenticationService
     private lateinit var localStorage: LocalStorageService
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {

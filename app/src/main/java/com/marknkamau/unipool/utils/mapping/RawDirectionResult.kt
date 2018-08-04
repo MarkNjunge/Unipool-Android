@@ -2,6 +2,7 @@ package com.marknkamau.unipool.utils.mapping
 
 import android.support.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 @Keep
 data class RawDirectionResult(
@@ -46,34 +47,54 @@ data class Distance(val text: String, val value: String)
 
 @Keep
 data class Duration(val text: String,
-               val value: String)
+                    val value: String)
 
 @Keep
 data class Steps(val html_instructions: String,
-            val duration: Duration,
-            val distance: Distance,
-            val end_location: EndLocation,
-            val polyline: Polyline,
-            val start_location: StartLocation,
-            val travel_mode: String)
+                 val duration: Duration,
+                 val distance: Distance,
+                 val end_location: EndLocation,
+                 val polyline: Polyline,
+                 val start_location: StartLocation,
+                 val travel_mode: String)
 
 @Keep
 data class StartLocation(val lng: String,
-                    val lat: String)
+                         val lat: String)
 
 @Keep
 data class Bounds(val southwest: Southwest,
-             val northeast: Northeast)
+                  val northeast: Northeast)
 
 @Keep
 data class Southwest(val lng: String,
-                val lat: String)
+                     val lat: String)
 
 @Keep
 data class Northeast(val lng: String,
-                val lat: String)
+                     val lat: String)
 
 @Keep
 data class GeocodedWaypoints(val place_id: String,
-                        val geocoder_status: String,
-                        val types: Array<String>)
+                             val geocoder_status: String,
+                             val types: Array<String>) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as GeocodedWaypoints
+
+        if (place_id != other.place_id) return false
+        if (geocoder_status != other.geocoder_status) return false
+        if (!Arrays.equals(types, other.types)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = place_id.hashCode()
+        result = 31 * result + geocoder_status.hashCode()
+        result = 31 * result + Arrays.hashCode(types)
+        return result
+    }
+}

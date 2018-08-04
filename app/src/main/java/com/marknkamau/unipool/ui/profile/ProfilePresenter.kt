@@ -69,7 +69,7 @@ class ProfilePresenter(
                         })
     }
 
-    fun updateVehicle(vehicle: Vehicle){
+    fun updateVehicle(vehicle: Vehicle) {
         apiRepository.updateVehicle(vehicle.registrationNumber, vehicle.make, vehicle.color, vehicle.capacity)
                 .compose(applyCompletableSchedulers())
                 .subscribeBy(

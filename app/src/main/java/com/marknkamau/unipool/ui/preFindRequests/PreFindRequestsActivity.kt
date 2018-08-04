@@ -16,7 +16,6 @@ import com.marknkamau.unipool.utils.getTrimmedText
 import com.marknkamau.unipool.utils.mapping.GeoLocation
 import com.marknkamau.unipool.utils.toast
 import kotlinx.android.synthetic.main.activity_pre_find_requests.*
-import timber.log.Timber
 
 class PreFindRequestsActivity : BaseActivity(), PreFindRequestsView {
     private val LOCATION_RQ = 0

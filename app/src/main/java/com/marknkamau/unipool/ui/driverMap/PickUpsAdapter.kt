@@ -19,7 +19,7 @@ class PickUpsAdapter(private val onClick: (pickUp: PickUp, clickType: ClickType)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(pickUps[position], onClick)
 
-    fun updateList(items: MutableList<PickUp>){
+    fun updateList(items: MutableList<PickUp>) {
         this.pickUps.clear()
         this.pickUps.addAll(items)
         this.notifyDataSetChanged()
@@ -32,7 +32,7 @@ class PickUpsAdapter(private val onClick: (pickUp: PickUp, clickType: ClickType)
             itemView.tvPhone.text = "0${pickUp.user.phone}"
             itemView.tvLocation.text = pickUp.location.name
 
-            if (pickUp.completed){
+            if (pickUp.completed) {
                 itemView.imgPickUp.visibility = View.GONE
                 itemView.imgCancel.visibility = View.GONE
             }

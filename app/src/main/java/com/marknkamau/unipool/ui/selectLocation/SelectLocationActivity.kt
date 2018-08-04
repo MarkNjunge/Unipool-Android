@@ -13,7 +13,6 @@ import com.google.android.gms.maps.model.MapStyleOptions
 import com.marknkamau.unipool.R
 import com.marknkamau.unipool.UnipoolApp
 import com.marknkamau.unipool.ui.BaseActivity
-import com.marknkamau.unipool.utils.app
 import com.marknkamau.unipool.utils.mapping.GeoLocation
 import com.marknkamau.unipool.utils.mapping.MapHelper
 import com.marknkamau.unipool.utils.toast
@@ -78,6 +77,6 @@ class SelectLocationActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     companion object {
-        val SELECTED_LOCATION = "selected location"
+        const val SELECTED_LOCATION = "selected location"
     }
 }

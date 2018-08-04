@@ -9,7 +9,7 @@ import com.marknkamau.unipool.utils.applyCompletableSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import timber.log.Timber
 
-class SetUpUserPresenter(val view: SetUpUserView, val localStorageService: LocalStorageService, val authenticationService: AuthenticationService, val apiRepository: ApiRepository) {
+class SetUpUserPresenter(val view: SetUpUserView, val localStorageService: LocalStorageService, private val authenticationService: AuthenticationService, val apiRepository: ApiRepository) {
     fun addUser(fullName: String, phone: Int, studentNumber: Int, gender: String) {
         val genderProper = when (gender) {
             "Male" -> Gender.M

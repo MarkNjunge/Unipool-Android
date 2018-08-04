@@ -15,7 +15,6 @@ import com.marknkamau.unipool.domain.ScheduledRide
 import com.marknkamau.unipool.ui.main.MainActivity
 import com.marknkamau.unipool.ui.riderMap.RiderMapActivity
 import com.marknkamau.unipool.ui.scheduleRide.ScheduleRideActivity
-import com.marknkamau.unipool.utils.app
 import com.marknkamau.unipool.utils.start
 import com.marknkamau.unipool.utils.toast
 import kotlinx.android.synthetic.main.fragment_rider_main.*

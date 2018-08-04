@@ -16,7 +16,7 @@ import java.nio.charset.Charset
  * @see <a href="https://www.eclipse.org/paho/clients/android/">Paho Android Service<a/>
  * @see <a href="https://www.hivemq.com/blog/mqtt-client-library-enyclopedia-paho-android-service">MQTT Client Library Enyclopedia – Paho Android Service<a/>
  */
-class MQTTHelper(context: Context, val url: String, val clientId: String = MqttClient.generateClientId()) : MqttCallbackExtended {
+class MQTTHelper(context: Context, val url: String, private val clientId: String = MqttClient.generateClientId()) : MqttCallbackExtended {
     private val client = MqttAndroidClient(context, url, clientId)
     private var connectionListener: ConnectionListener? = null
     private var messageListener: MessageListener? = null

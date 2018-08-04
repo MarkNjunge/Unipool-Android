@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import com.marknkamau.unipool.R
 import com.marknkamau.unipool.UnipoolApp
-import com.marknkamau.unipool.domain.ScheduledRide
 import com.marknkamau.unipool.ui.BaseActivity
 import com.marknkamau.unipool.ui.selectLocation.SelectLocationActivity
 import com.marknkamau.unipool.utils.DatePickerFragment
@@ -16,7 +15,6 @@ import com.marknkamau.unipool.utils.TimePickerFragment
 import com.marknkamau.unipool.utils.mapping.GeoLocation
 import com.marknkamau.unipool.utils.toast
 import kotlinx.android.synthetic.main.activity_schedule_ride.*
-import java.util.*
 
 class ScheduleRideActivity : BaseActivity(), ScheduleRideView {
     private val selectedTime by lazy { DateTime.getNow() }

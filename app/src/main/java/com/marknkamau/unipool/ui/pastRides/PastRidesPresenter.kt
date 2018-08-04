@@ -16,9 +16,9 @@ class PastRidesPresenter(val view: PastRidesView, val localStorageService: Local
                     .compose(applySingleSchedulers())
                     .subscribeBy(
                             onSuccess = { rides ->
-                                if (rides.isEmpty()){
+                                if (rides.isEmpty()) {
                                     view.noRides()
-                                }else{
+                                } else {
                                     rides.sortBy { it.arrivalTime?.asTimestamp() }
                                     view.setRides(rides)
                                 }

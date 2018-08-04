@@ -2,10 +2,10 @@ package com.marknkamau.unipool.ui
 
 import io.reactivex.disposables.CompositeDisposable
 
-open class BasePresenter{
+open class BasePresenter {
     protected val disposables = CompositeDisposable()
 
-    fun dispose(){
+    fun dispose() {
         disposables.clear()
     }
 }

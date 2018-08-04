@@ -68,12 +68,6 @@ data class RequestOffer(val offerID: String,
     }
 }
 
-data class RouteStop(val user: UserSimple, val location: GeoLocation) {
-    override fun toString(): String {
-        return "RouteStop(user=$user, location=$location)"
-    }
-}
-
 data class PastRide(val startLocation: String,
                     val endLocation: String,
                     val depatureTime: DateTime,

@@ -62,11 +62,11 @@ class DriverMapPresenter(private val view: DriverMapView,
         listenForResponse()
     }
 
-    fun notifyRider(riderId: String, updateType: String){
+    fun notifyRider(riderId: String, updateType: String) {
         mqttHelper.publish("$riderId/offer/${user.id}", updateType, 2)
     }
 
-    fun listenForResponse() {
+    private fun listenForResponse() {
         mqttHelper.subscribe(RESPONSE_TOPIC, 2)
     }
 

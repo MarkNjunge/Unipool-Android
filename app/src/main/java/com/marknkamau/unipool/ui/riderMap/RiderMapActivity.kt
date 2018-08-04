@@ -18,7 +18,6 @@ import com.marknkamau.unipool.domain.OfferResponseType
 import com.marknkamau.unipool.domain.RequestOffer
 import com.marknkamau.unipool.domain.UserSimple
 import com.marknkamau.unipool.ui.BaseActivity
-import com.marknkamau.unipool.utils.app
 import com.marknkamau.unipool.utils.mapping.DirectionsHelper
 import com.marknkamau.unipool.utils.mapping.GeoLocation
 import com.marknkamau.unipool.utils.mapping.MapHelper
@@ -156,13 +155,13 @@ class RiderMapActivity : BaseActivity(), OnMapReadyCallback, RiderMapView {
         mapHelper.moveToDisplay(request.origin.latLng, request.destination.latLng)
 
         // Initialize offers adapter
-        offersAdapter = OffersAdapter(request.distance, mutableListOf(), { responseType, offer ->
+        offersAdapter = OffersAdapter(request.distance, mutableListOf()) { responseType, offer ->
             if (responseType == OfferResponseType.ACCEPTED) {
                 acceptOffer(offer)
             } else {
                 rejectOffer(offer)
             }
-        })
+        }
         rvOffers.adapter = offersAdapter
 
         isRequesting = true

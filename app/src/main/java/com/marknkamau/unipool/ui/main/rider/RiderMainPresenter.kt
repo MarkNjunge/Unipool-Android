@@ -24,7 +24,8 @@ class RiderMainPresenter(private val view: RiderMainView, private val localStora
                                 localStorageService.setScheduledRides(rides)
                             },
                             onError = { throwable ->
-                                view.displayMessage(throwable.message ?: "Unable to get scheduled rides")
+                                view.displayMessage(throwable.message
+                                        ?: "Unable to get scheduled rides")
                             }
                     ))
         }
@@ -38,7 +39,8 @@ class RiderMainPresenter(private val view: RiderMainView, private val localStora
                             getScheduledRides()
                         },
                         onError = { throwable ->
-                            view.displayMessage(throwable.message ?: "Unable to get scheduled rides")
+                            view.displayMessage(throwable.message
+                                    ?: "Unable to get scheduled rides")
                         }
                 ))
     }

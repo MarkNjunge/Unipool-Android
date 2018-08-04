@@ -27,9 +27,9 @@ class DriverMainFragment : Fragment() {
 
         btnFindRequests.setOnClickListener {
             if (mainActivity.canViewMap()) {
-                if (user?.vehicles?.isEmpty() == true){
+                if (user?.vehicles?.isEmpty() == true) {
                     requireContext().toast("You cannot act as a driver without any vehicles.")
-                }else{
+                } else {
                     requireContext().start(PreFindRequestsActivity::class.java)
                 }
             }

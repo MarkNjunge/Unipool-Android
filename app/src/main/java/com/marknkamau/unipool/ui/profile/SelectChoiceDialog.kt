@@ -42,7 +42,7 @@ class SelectChoiceDialog : DialogFragment() {
     }
 
     companion object {
-        val ITEMS_KEY = "items"
-        val TITLE = "title"
+        const val ITEMS_KEY = "items"
+        const val TITLE = "title"
     }
 }

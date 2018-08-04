@@ -7,7 +7,6 @@ import com.google.android.gms.common.api.Status
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.marknkamau.unipool.BuildConfig
-import com.marknkamau.unipool.UnipoolApp
 import timber.log.Timber
 
 class AuthenticationServiceImpl(private val googleApiClient: GoogleApiClient) : AuthenticationService {
@@ -20,7 +19,7 @@ class AuthenticationServiceImpl(private val googleApiClient: GoogleApiClient) : 
 
             if (!BuildConfig.DEBUG && !email.contains("@strathmore.edu")) {
                 listener.onError("Only Strathmore email addresses are allowed")
-                signOut(object: AuthenticationService.SignOutListener{
+                signOut(object : AuthenticationService.SignOutListener {
                     override fun onError(reason: String) {
 
                     }

@@ -78,9 +78,9 @@ class AddVehicleDialog : DialogFragment() {
     }
 
     companion object {
-        val REG_NO = "reg_no"
-        val MAKE = "make"
-        val CAPACITY = "capacity"
-        val COLOR = "color"
+        const val REG_NO = "reg_no"
+        const val MAKE = "make"
+        const val CAPACITY = "capacity"
+        const val COLOR = "color"
     }
 }

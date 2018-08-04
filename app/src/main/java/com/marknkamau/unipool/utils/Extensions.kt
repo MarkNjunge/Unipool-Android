@@ -11,8 +11,7 @@ import android.widget.Toast
 import com.marknkamau.unipool.UnipoolApp
 import java.math.BigDecimal
 
-fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT)
-        = Toast.makeText(this, message, length).show()
+fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) = Toast.makeText(this, message, length).show()
 
 val Activity.app: UnipoolApp
     get() = application as UnipoolApp

@@ -18,7 +18,6 @@ import com.marknkamau.unipool.domain.RequestOffer
 import com.marknkamau.unipool.domain.RideRequest
 import com.marknkamau.unipool.domain.RideUpdateType
 import com.marknkamau.unipool.ui.BaseActivity
-import com.marknkamau.unipool.utils.app
 import com.marknkamau.unipool.utils.mapping.GeoLocation
 import com.marknkamau.unipool.utils.mapping.MapHelper
 import com.marknkamau.unipool.utils.mapping.MarkerData
@@ -99,7 +98,7 @@ class DriverMapActivity : BaseActivity(), DriverMapView, OnMapReadyCallback {
         mapHelper.listenForLocationUpdates()
 
         // Initialize ride helper
-        rideHelper = RideHelper(mapHelper, UnipoolApp.directionsHelper,UnipoolApp.localStorage, UnipoolApp.apiRepository, vehicleNumber, endLocation,
+        rideHelper = RideHelper(mapHelper, UnipoolApp.directionsHelper, UnipoolApp.localStorage, UnipoolApp.apiRepository, vehicleNumber, endLocation,
                 { throwable ->
                     displayMessage(throwable.message ?: "An error has occurred")
                 },
@@ -217,8 +216,8 @@ class DriverMapActivity : BaseActivity(), DriverMapView, OnMapReadyCallback {
     }
 
     companion object {
-        val VEHICLE = "vehicle"
-        val END_LOCATION = "endLocation"
-        val PRICING = "pricing"
+        const val VEHICLE = "vehicle"
+        const val END_LOCATION = "endLocation"
+        const val PRICING = "pricing"
     }
 }

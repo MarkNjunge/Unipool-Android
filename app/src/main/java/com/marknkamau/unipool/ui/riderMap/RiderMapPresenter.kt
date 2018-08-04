@@ -51,7 +51,8 @@ class RiderMapPresenter(private val view: RiderMapView,
                             listenForOffers()
                         },
                         onError = { throwable ->
-                            view.displayMessage(throwable.message ?: "There was an error precessing your request")
+                            view.displayMessage(throwable.message
+                                    ?: "There was an error precessing your request")
                         })
     }
 
@@ -93,7 +94,8 @@ class RiderMapPresenter(private val view: RiderMapView,
                             view.noRequestExists()
                         },
                         onError = { throwable ->
-                            view.displayMessage(throwable.message ?: "There was an error precessing your request")
+                            view.displayMessage(throwable.message
+                                    ?: "There was an error precessing your request")
                         })
     }
 
@@ -110,16 +112,18 @@ class RiderMapPresenter(private val view: RiderMapView,
                             listenForOffers()
                         },
                         onError = { throwable ->
-                            view.displayMessage(throwable.message ?: "There was an error precessing your request")
+                            view.displayMessage(throwable.message
+                                    ?: "There was an error precessing your request")
                         })
     }
 
-    private fun removeRequestOnline(){
+    private fun removeRequestOnline() {
         apiRepository.removeRequest(authenticationService.currentUserId())
                 .compose(applyCompletableSchedulers())
                 .subscribeBy(
                         onError = { throwable ->
-                            view.displayMessage(throwable.message ?: "There was an error precessing your request")
+                            view.displayMessage(throwable.message
+                                    ?: "There was an error precessing your request")
                         })
     }
 
@@ -150,7 +154,7 @@ class RiderMapPresenter(private val view: RiderMapView,
                 if (updateType == RideUpdateType.CANCELLED) {
                     view.setRideCancelled()
                     checkForRequest()
-                }else if(updateType == RideUpdateType.COMPLETED){
+                } else if (updateType == RideUpdateType.COMPLETED) {
                     removeRequest()
                     view.setRideCompleted()
                 }

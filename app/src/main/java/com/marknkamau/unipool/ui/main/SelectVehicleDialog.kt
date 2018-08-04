@@ -29,6 +29,6 @@ class SelectVehicleDialog : DialogFragment() {
     }
 
     companion object {
-        val ITEMS = "items"
+        const val ITEMS = "items"
     }
 }

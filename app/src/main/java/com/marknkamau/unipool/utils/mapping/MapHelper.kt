@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.location.Geocoder
 import android.location.Location
-import android.location.LocationListener
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.LocationRequest
@@ -45,7 +44,7 @@ class MapHelper(private val googleApiClient: GoogleApiClient,
     }
 
     @SuppressLint("MissingPermission")
-    fun listenForLocationUpdates(){
+    fun listenForLocationUpdates() {
         val locationRequest = LocationRequest.create()
         locationRequest.interval = 10000
         locationRequest.fastestInterval = 10000
@@ -54,7 +53,7 @@ class MapHelper(private val googleApiClient: GoogleApiClient,
         locationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, this)
     }
 
-    fun stopListeningForLocationUpdates(){
+    fun stopListeningForLocationUpdates() {
         locationProviderApi.removeLocationUpdates(googleApiClient, this)
     }
 
@@ -169,9 +168,9 @@ class MapHelper(private val googleApiClient: GoogleApiClient,
                 builder.include(it)
             }
             val cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), 200)// param2 = padding
-            runAfter(1000, {
+            runAfter(1000) {
                 googleMap.animateCamera(cameraUpdate)
-            })
+            }
         }
     }
 

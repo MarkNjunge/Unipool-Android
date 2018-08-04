@@ -18,8 +18,8 @@ data class DateTime(var hourOfDay: Int, var minute: Int, var year: Int, var mont
     }
 
     companion object {
-        val TIME_FORMAT = "h:mm a" // Display as 12Hr from 1-12 e.g. 6:00 AM
-        val DATE_FORMAT = "dd MMM yy" // e.g. 27 Sep 17
+        const val TIME_FORMAT = "h:mm a" // Display as 12Hr from 1-12 e.g. 6:00 AM
+        const val DATE_FORMAT = "dd MMM yy" // e.g. 27 Sep 17
 
         fun getNow() = Calendar.getInstance().time.toDateTime()
 

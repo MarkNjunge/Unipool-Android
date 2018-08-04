@@ -1,6 +1,5 @@
 package com.marknkamau.unipool.ui.pastRides
 
-import android.support.transition.TransitionManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,7 @@ class PastRidesAdapter(val onClick: (PastRide) -> Unit) : RecyclerView.Adapter<P
 
     override fun getItemCount() = rides.size
 
-    fun setItems(rides: MutableList<PastRide>){
+    fun setItems(rides: MutableList<PastRide>) {
         this.rides.clear()
         this.rides.addAll(rides)
         this.notifyDataSetChanged()
@@ -39,9 +38,9 @@ class PastRidesAdapter(val onClick: (PastRide) -> Unit) : RecyclerView.Adapter<P
 
             itemView.rootLayout.setOnClickListener {
                 onClick(pastRide)
-                if (detailsVisible){
+                if (detailsVisible) {
                     itemView.viewExtraDetails.visibility = View.GONE
-                }else{
+                } else {
                     itemView.viewExtraDetails.visibility = View.VISIBLE
                 }
                 detailsVisible = !detailsVisible
