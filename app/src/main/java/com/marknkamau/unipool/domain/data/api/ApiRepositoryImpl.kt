@@ -10,6 +10,7 @@ import com.marknkamau.unipool.domain.*
 import com.marknkamau.unipool.utils.DateTime
 import com.marknkamau.unipool.utils.mapping.GeoLocation
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import java.text.DecimalFormat
 
@@ -24,22 +25,30 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .phone(user.phone)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(
-                        client.mutate(addUserMutation)
-                )
-        )
+        return Rx2Apollo.from(client.prefetch(addUserMutation))
     }
 
     override fun getUser(userId: String): Single<User> {
-        val getUserQuery = GetUserQuery.builder().userId(userId).build()
+        val getUserQuery = GetUserQuery.builder()
+                .userId(userId)
+                .build()
 
-        return Single.fromObservable(Rx2Apollo.from(client.query(getUserQuery)))
+        return Rx2Apollo.from(client.query(getUserQuery))
+                .toSingle()
                 .map { t ->
                     val getUser = t.data()?.user
                     if (getUser == null) {
                         null
                     } else {
+                        val vehicles = getUser.vehicles().map { vehicle ->
+                            Vehicle(
+                                    vehicle.registrationNumber(),
+                                    vehicle.make(),
+                                    vehicle.color(),
+                                    vehicle.capacity()
+                            )
+                        }.toMutableList()
+
                         User(
                                 getUser._id(),
                                 getUser.studentNumber(),
@@ -47,27 +56,21 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                                 getUser.fullName(),
                                 getUser.phone(),
                                 getUser.gender(),
-                                getUser.vehicles().map { vehicle ->
-                                    Vehicle(
-                                            vehicle.registrationNumber(),
-                                            vehicle.make(),
-                                            vehicle.color(),
-                                            vehicle.capacity()
-                                    )
-                                }.toMutableList()
+                                vehicles
                         )
                     }
                 }
     }
 
     override fun updateUser(userId: String, fullName: String, gender: Gender, phone: Int): Completable {
-        val updateUserMutation = UpdateUserMutation.builder().id(userId).fullName(fullName).gender(gender).phone(phone).build()
+        val updateUserMutation = UpdateUserMutation.builder()
+                .id(userId)
+                .fullName(fullName)
+                .gender(gender)
+                .phone(phone)
+                .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(
-                        client.mutate(updateUserMutation)
-                )
-        )
+        return Rx2Apollo.from(client.prefetch(updateUserMutation))
     }
 
     override fun addVehicle(userId: String, vehicle: Vehicle): Completable {
@@ -79,19 +82,15 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .make(vehicle.make)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(
-                        client.mutate(addVehicleMutation)
-                )
-        )
+        return Rx2Apollo.from(client.prefetch(addVehicleMutation))
     }
 
     override fun deleteVehicle(registrationNumber: String): Completable {
-        val deleteVehicleMutation = DeleteVehicleMutation.builder().registrationNumber(registrationNumber).build()
+        val deleteVehicleMutation = DeleteVehicleMutation.builder()
+                .registrationNumber(registrationNumber)
+                .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(deleteVehicleMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(deleteVehicleMutation))
     }
 
     override fun updateVehicle(registrationNumber: String, make: String, color: String, capacity: Int): Completable {
@@ -102,9 +101,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .capacity(capacity)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(updateVehicleMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(updateVehicleMutation))
     }
 
     override fun addRequest(userId: String, startLocation: GeoLocation, endLocation: GeoLocation): Completable {
@@ -114,9 +111,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .endLocation(endLocation.mapToInput())
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(addRequestMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(addRequestMutation))
     }
 
     override fun removeRequest(userId: String): Completable {
@@ -124,9 +119,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .userId(userId)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(removeRequestMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(removeRequestMutation))
     }
 
     override fun getRequest(userId: String): Single<Requesting> {
@@ -134,38 +127,38 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .userId(userId)
                 .build()
 
-        return Single.fromObservable(
-                Rx2Apollo.from(client.query(getRequestByUserQuery))
-                        .map { response ->
-                            val data = response.data()?.requestsByUser
-                            if (data == null) {
-                                Requesting(false, null)
-                            } else {
-                                Requesting(true, Pair(data.startLocation().convert(), data.endLocation().convert()))
+        return Rx2Apollo.from(client.query(getRequestByUserQuery))
+                .toSingle()
+                .map { response ->
+                    val data = response.data()?.requestsByUser
+                    if (data == null) {
+                        Requesting(false, null)
+                    } else {
+                        Requesting(true, Pair(data.startLocation().convert(), data.endLocation().convert()))
 
-                            }
-                        }
-        )
+                    }
+                }
+
     }
 
     override fun getAllRequests(): Single<MutableList<RideRequest>> {
         val getAllRequestsQuery = GetAllRequestsQuery.builder()
                 .build()
 
-        return Single.fromObservable(
-                Rx2Apollo.from(client.query(getAllRequestsQuery))
-                        .map { response ->
-                            val mapped = mutableListOf<RideRequest>()
+        return Rx2Apollo.from(client.query(getAllRequestsQuery))
+                .toSingle()
+                .map { response ->
+                    val mapped = mutableListOf<RideRequest>()
 
-                            val allRequests = response.data()?.allRequests
-                            allRequests?.forEach {
-                                val request = RideRequest(it.user()._id(), it.user().fullName(), it.startLocation().convert(), it.endLocation().convert())
-                                mapped.add(request)
-                            }
+                    val allRequests = response.data()?.allRequests
+                    allRequests?.forEach {
+                        val request = RideRequest(it.user()._id(), it.user().fullName(), it.startLocation().convert(), it.endLocation().convert())
+                        mapped.add(request)
+                    }
 
-                            mapped
-                        }
-        )
+                    mapped
+                }
+
     }
 
     override fun startRide(ride: LocalRide, driverId: String, vehicleRegNo: String): Completable {
@@ -178,9 +171,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .longitude(ride.startLocation.longitude)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(startRideMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(startRideMutation))
     }
 
     override fun addPickup(rideId: String, pickUp: PickUp): Completable {
@@ -192,9 +183,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .longitude(pickUp.location.longitude)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(addPickUpMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(addPickUpMutation))
     }
 
     override fun removePickUp(rideId: String, pickUp: PickUp): Completable {
@@ -203,9 +192,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .userId(pickUp.user.userId)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(removePickUpMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(removePickUpMutation))
     }
 
     override fun setPickUpCompleted(rideId: String, pickUp: PickUp): Completable {
@@ -217,9 +204,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .longitude(pickUp.location.longitude)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(setPickUpCompletedMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(setPickUpCompletedMutation))
     }
 
     override fun setRideCompleted(ride: LocalRide): Completable {
@@ -230,9 +215,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .longitude(ride.endLocation.longitude)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(markRideAsCompletedMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(markRideAsCompletedMutation))
     }
 
     override fun addScheduledRide(scheduledRide: ScheduledRide, userId: String): Completable {
@@ -244,9 +227,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .depatureTime(scheduledRide.dateTime.asTimestamp().toDouble())
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(scheduleRideMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(scheduleRideMutation))
     }
 
     override fun removeScheduledRide(scheduledRide: ScheduledRide): Completable {
@@ -254,9 +235,7 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .rideId(scheduledRide.rideId)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(deleteScheduledRideMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(deleteScheduledRideMutation))
     }
 
     override fun getScheduledRidesForUser(userId: String): Single<MutableList<ScheduledRide>> {
@@ -264,7 +243,8 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .userId(userId)
                 .build()
 
-        return Single.fromObservable(Rx2Apollo.from(client.query(getScheduledRidesForUserQuery)))
+        return Rx2Apollo.from(client.query(getScheduledRidesForUserQuery))
+                .toSingle()
                 .map { response ->
                     val result = mutableListOf<ScheduledRide>()
                     val data = response.data()?.scheduledRidesForUser
@@ -289,15 +269,14 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
                 .rideId(scheduledRide.rideId)
                 .build()
 
-        return Completable.fromObservable(
-                Rx2Apollo.from(client.mutate(deleteScheduledRideMutation))
-        )
+        return Rx2Apollo.from(client.prefetch(deleteScheduledRideMutation))
     }
 
     override fun getAllScheduledRides(): Single<MutableList<ScheduledRide>> {
         val getScheduledRidesQuery = GetScheduledRidesQuery.builder().build()
 
-        return Single.fromObservable(Rx2Apollo.from(client.query(getScheduledRidesQuery)))
+        return Rx2Apollo.from(client.query(getScheduledRidesQuery))
+                .toSingle()
                 .map { response ->
                     val result = mutableListOf<ScheduledRide>()
                     val data = response.data()?.allScheduledRides
@@ -320,7 +299,8 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
     override fun getUserPastRides(userId: String): Single<MutableList<PastRide>> {
         val getUserRidesQuery = GetUserRidesQuery.builder().userId(userId).build()
 
-        return Single.fromObservable(Rx2Apollo.from(client.query(getUserRidesQuery)))
+        return Rx2Apollo.from(client.query(getUserRidesQuery))
+                .toSingle()
                 .map { response ->
                     val returnList = mutableListOf<PastRide>()
                     val data = response.data()?.ridesByUser
@@ -379,5 +359,9 @@ class ApiRepositoryImpl(val client: ApolloClient) : ApiRepository {
             .latitude(this.latitude)
             .longitude(this.longitude)
             .build()
+
+    private fun <T> Observable<T>.toSingle(): Single<T> {
+        return Single.fromObservable(this)
+    }
 
 }
