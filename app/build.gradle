@@ -9,6 +9,10 @@ android {
     def keystoreProperties = new Properties()
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+    def keysPropertiesFile = rootProject.file("keys.properties")
+    def keys = new Properties()
+    keys.load(new FileInputStream(keysPropertiesFile))
+
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
     defaultConfig {
@@ -20,9 +24,9 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        resValue "string", "google_maps_key", (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "")
-        resValue "string", "request_token_id", (project.findProperty("REQUEST_TOKEN_ID") ?: "")
-        resValue "string", "mqtt_broker", (project.findProperty("MQTT_BROKER") ?: "")
+        resValue "string", "google_maps_key", keys['GOOGLE_MAPS_API_KEY']
+        resValue "string", "request_token_id", keys['REQUEST_TOKEN_ID']
+        resValue "string", "mqtt_broker", keys['MQTT_BROKER']
     }
     signingConfigs {
         config {
