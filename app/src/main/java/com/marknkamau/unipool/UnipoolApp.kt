@@ -49,7 +49,7 @@ class UnipoolApp : Application() {
         localStorage = LocalStorageServiceImpl(this)
         mqttHelper = MQTTHelper(this, getString(R.string.mqtt_broker), "app-${UUID.randomUUID().toString().split("-")[0]}")
         apiRepository = ApiRepositoryImpl( ApolloHelper().apolloClient)
-        directionsHelper = DirectionsHelper(getString(R.string.google_api_key), this)
+        directionsHelper = DirectionsHelper(getString(R.string.google_api_key))
     }
 
     private fun initializeGoogleApiClient(){
