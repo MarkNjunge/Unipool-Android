@@ -11,7 +11,7 @@ You can find the proposal and documentation in the `docs` folder.
 
 [Backend API](https://github.com/MarkNjunge/Unipool-backend)
 
-Developed by [Mark Njung'e](https://github.com/MarkNjunge) and [Mecolela Sichangi](https://github.com/Sichangime)
+Developed by [Mark Njung'e](https://github.com/MarkNjunge) and [Mecolela Sichangi](https://github.com/Sichangi)
 
 **NB:** Unipool is not used in production.
 
