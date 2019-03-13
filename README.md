@@ -37,7 +37,7 @@ MQTT_BROKER=mqtt://mqtt.example.com
 - You can get the `GOOGLE_MAPS_API_KEY` and `REQUEST_TOKEN_ID` from the [credentials page]- (https://console.cloud.google.com/apis/credentials).  
 - The `GOOGLE_MAPS_API_KEY` is any of the API keys.  
 - For the `REQUEST_TOKEN_ID` it **needs** to be an OAuth 2.0 client ID of type **Web application**, not **Android**.  
-- For an MQTT broker you can host your own instance of [my sample broker](https://github.com/MarkNjunge/mqtt-broker), [RabbitMQ](https://www.rabbitmq.com) or any MQTT broker provider.  
+- For an MQTT broker you can host your own instance of [my sample broker](https://github.com/MarkNjunge/mqtt-broker), or any MQTT broker provider.  
 6. Open and build the project in Android Studio (3.0+). 
 
 # Screenshots
